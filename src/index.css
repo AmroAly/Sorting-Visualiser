@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+nav > .nav-child {
+  padding: 10px;
+}
+
+.vl {
+  border-left: 2px solid white;
+  height: 20px;
+  margin: 0 10px;
+}
