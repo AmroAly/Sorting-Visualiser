@@ -1,7 +1,11 @@
+import Header from "./components/Header";
+import StripesWrapper from "./components/StripesWrapper";
+
 function App() {
   return (
     <div className="App">
-      <h1>Sorting Visualiser</h1>
+      <Header />
+      <StripesWrapper />
     </div>
   );
 }
