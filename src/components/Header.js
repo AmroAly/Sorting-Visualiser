@@ -1,7 +1,15 @@
-const Header = () => {
+import { useState } from "react";
+
+const Header = ({ onRangeChange }) => {
+  const INITIAL_RANGE_VALUE = 60;
+  const [rangeValue, setRangeValue] = useState(INITIAL_RANGE_VALUE);
+  const onRangeChangeHandler = (e) => {
+    setRangeValue(e.target.value);
+    onRangeChange(e.target.value);
+  };
   return (
     <header className="bg-cyan-900">
-      <nav className="relative mx-auto flex flex-row flex-wrap items-center justify-center p-4 container w-9/12 text-xl text-sky-50 font-mono">
+      <nav className="relative mx-auto flex flex-row flex-wrap items-center justify-center p-4 container w-full l:text-l xl:text-xl text-sky-50 font-mono">
         <div className="nav-child">Generate a New Array!</div>
         <div className="vl"></div>
         <div className="nav-child flex flex-row flex-wrap items-center justify-between">
@@ -10,9 +18,11 @@ const Header = () => {
             <input
               className="align-middle ml-2"
               type="range"
-              min="1"
-              max="100"
+              min="15"
+              max="150"
               id="myRange"
+              value={rangeValue}
+              onChange={onRangeChangeHandler}
             />
           </div>
         </div>

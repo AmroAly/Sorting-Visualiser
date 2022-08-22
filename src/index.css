@@ -22,6 +22,7 @@ nav>.nav-child:hover {
 }
 
 .stripe {
-  border-left: 20px solid cadetblue;
+  /* border-left: 20px solid cadetblue; */
   /* height: 500px; */
+  margin-left: 2px;
 }

@@ -1,7 +1,7 @@
 const Stripe = ({ height, broderWidth }) => (
   <div
-    className="stripe"
-    style={{ height, borderLeft: `${broderWidth} solid cadetblue` }}
+    className="stripe sm:m-0"
+    style={{ height, borderLeft: `${broderWidth}px solid cadetblue` }}
   ></div>
 );
 
