@@ -1,7 +1,7 @@
 const Header = () => {
   return (
     <header className="bg-cyan-900">
-      <nav className="relative mx-auto flex flex-row flex-wrap items-center justify-center p-4 container w-9/12 text-sky-50">
+      <nav className="relative mx-auto flex flex-row flex-wrap items-center justify-center p-4 container w-9/12 text-xl text-sky-50 font-mono">
         <div className="nav-child">Generate a New Array!</div>
         <div className="vl"></div>
         <div className="nav-child flex flex-row flex-wrap items-center justify-between">
