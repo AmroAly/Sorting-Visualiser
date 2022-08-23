@@ -74,11 +74,13 @@ const Header = ({ onRangeChange, onGenerateNewArray }) => {
           Bubble Sort
         </div>
         <div className="vl"></div>
-        {selectedAlgorithm && (
-          <div className="nav-child">
-            <button onClick={onClickSortHandler}>Sort</button>
-          </div>
-        )}
+        <div className="nav-child relative">
+          {selectedAlgorithm && (
+            <button className="sort-button" onClick={onClickSortHandler}>
+              Sort!
+            </button>
+          )}
+        </div>
       </nav>
     </header>
   );

@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+
 nav > .nav-child {
   padding: 10px;
+}
+
+nav>.nav-child:last-child {
+  margin-left: 20px;
 }
 
 nav>.nav-child:hover {
@@ -29,4 +34,13 @@ nav>.nav-child:hover {
 
 nav>.nav-child.selected {
   color: cyan;
+}
+
+
+.sort-button {
+  position: absolute;
+top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  right: 0;
 }
