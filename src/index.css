@@ -8,7 +8,7 @@ nav > .nav-child {
 
 nav>.nav-child:hover {
   cursor: pointer;
-  color: antiquewhite;
+  color: cyan;
 }
 
 .vl {
@@ -25,4 +25,8 @@ nav>.nav-child:hover {
   /* border-left: 20px solid cadetblue; */
   /* height: 500px; */
   margin-left: 2px;
+}
+
+nav>.nav-child.selected {
+  color: cyan;
 }

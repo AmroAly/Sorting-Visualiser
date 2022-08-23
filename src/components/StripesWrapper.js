@@ -5,7 +5,7 @@ const StripesWrapper = ({ numberOfStripes }) => {
     const stripes = [];
     let stripeWidth = Math.floor(500 / numberOfStripes);
     for (let i = 0; i < numberOfStripes; i++) {
-      let height = Math.random() * (500 - 50) + 100;
+      let height = Math.floor(Math.random() * (500 - 50) + 100);
       stripes.push(
         <Stripe key={i} height={height} broderWidth={stripeWidth} />
       );
