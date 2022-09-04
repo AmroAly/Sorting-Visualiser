@@ -1,7 +1,7 @@
 import { useState } from "react";
 import sort from "../utilities/algorithms";
 
-const Header = ({ onRangeChange, onGenerateNewArray }) => {
+const Header = ({ onRangeChange, onGenerateNewArray, onSort }) => {
   const INITIAL_RANGE_VALUE = 60;
   const [rangeValue, setRangeValue] = useState(INITIAL_RANGE_VALUE);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(null);
@@ -40,7 +40,7 @@ const Header = ({ onRangeChange, onGenerateNewArray }) => {
             <input
               className="align-middle ml-2"
               type="range"
-              min="15"
+              min="10"
               max="150"
               id="myRange"
               value={rangeValue}

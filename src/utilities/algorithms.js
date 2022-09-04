@@ -24,8 +24,85 @@ const sort = (sortingAlgorithm) => {
   }
 };
 
+// sort elements based on height
 const mergeSort = () => {
-  console.log("Merge Sort");
+  const stripes = document.querySelectorAll(".stripe");
+  const n = stripes.length;
+  const arrayOfIDs = [];
+  stripes.forEach((el) => {
+    let indexOfId = el.id.indexOf("-") + 1;
+    let idString = el.id.substring(indexOfId);
+    arrayOfIDs.push(parseInt(idString));
+  });
+  console.log(arrayOfIDs);
+  const sorted = mergeSortHelper(arrayOfIDs, 0, n - 1, stripes);
+
+  console.log(arrayOfIDs);
+};
+
+function merge(arr, start, mid, end, stripesArray) {
+  let start2 = mid + 1;
+
+  // If the direct merge is already sorted
+  if (arr[mid].clientHeight <= arr[start2].clientHeight) {
+    return;
+  }
+
+  // Two pointers to maintain start
+  // of both arrays to merge
+  while (start <= mid && start2 <= end) {
+    // If element 1 is in right place
+    if (arr[start] <= arr[start2]) {
+      start++;
+    } else {
+      let value = arr[start2];
+      let index = start2;
+
+      // Shift all the elements between element 1
+      // element 2, right by 1.
+      while (index != start) {
+        arr[index] = arr[index - 1];
+        index--;
+      }
+      const nodeOneIdx = `#stripe-${arr[start]}`;
+      const nodeTwoIdx = `#stripe-${value}`;
+      console.log(nodeOneIdx, nodeTwoIdx);
+
+      // // get the actual nodes
+      const nodeOne = document.querySelector(nodeOneIdx);
+      const nodeTwo = document.querySelector(nodeTwoIdx);
+      swap(nodeOne.parentNode, nodeTwo, nodeOne);
+      arr[start] = value;
+
+      // Update all the pointers
+      start++;
+      mid++;
+      start2++;
+    }
+  }
+}
+
+function mergeSortHelper(arr, l, r, stripesArray) {
+  if (l < r) {
+    // Same as (l + r) / 2, but avoids overflow
+    // for large l and r
+    let m = l + Math.floor((r - l) / 2);
+
+    // Sort first and second halves
+    mergeSortHelper(arr, l, m, stripesArray);
+    mergeSortHelper(arr, m + 1, r, stripesArray);
+    // console.log(l, m, r);
+    merge(arr, l, m, r, stripesArray);
+  }
+}
+
+let i = 1;
+const swap = (parent, nodeA, nodeB) => {
+  setTimeout(function () {
+    nodeA.classList.add("animate-swap");
+    nodeB.classList.add("animate-swap");
+    parent.insertBefore(nodeA, nodeB);
+  }, 25 * i++);
 };
 
 const quickSort = () => {

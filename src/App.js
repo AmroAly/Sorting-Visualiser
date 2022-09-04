@@ -14,6 +14,7 @@ function App() {
   const ongGenerateNewArrayHandler = () => {
     setFlip(!flip);
   };
+
   return (
     <div className="App w-full">
       <Header

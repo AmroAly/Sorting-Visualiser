@@ -1,17 +1,30 @@
+import { useEffect } from "react";
 import Stripe from "./Stripe";
 
 const StripesWrapper = ({ numberOfStripes }) => {
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
   const generateStripes = () => {
     const stripes = [];
-    let stripeWidth = Math.floor(500 / numberOfStripes);
+    let stripeWidth = Math.floor(400 / numberOfStripes);
+    let height = 50;
+    let increastingRate = Math.floor(500 / numberOfStripes);
     for (let i = 0; i < numberOfStripes; i++) {
-      let height = Math.floor(Math.random() * (500 - 50) + 50);
       stripes.push(
-        <Stripe key={i} height={height} broderWidth={stripeWidth} />
+        <Stripe
+          key={i}
+          i={i}
+          height={height + increastingRate * i}
+          broderWidth={stripeWidth}
+        />
       );
     }
+    // shuffle elements
+    stripes.sort(() => Math.random() - 0.5);
     return stripes;
   };
+
   return (
     <div className="stripe-wrapper mx-auto flex flex-row justify-between container w-9/12 overflow-hidden">
       {generateStripes()}

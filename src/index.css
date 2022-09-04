@@ -27,9 +27,11 @@ nav>.nav-child:hover {
 }
 
 .stripe {
-  /* border-left: 20px solid cadetblue; */
-  /* height: 500px; */
   margin-left: 2px;
+}
+
+.red-border {
+  border-color: red !important;
 }
 
 nav>.nav-child.selected {
@@ -43,4 +45,27 @@ top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   right: 0;
+}
+
+@keyframes animateBorder {
+  0% {
+      border-color: lightgreen;
+    }
+  
+    25% {
+      border-color:rgb(242, 53, 53);
+    }
+  
+    50% {
+      border-color: cyan;
+    }
+  
+    100% {
+      border-color: yello;
+    }
+}
+
+.animate-swap {
+  /* transition: all 500ms; */
+  animation: animateBorder 100ms cubic-bezier(.36, .07, .19, .97);
 }
