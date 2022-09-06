@@ -1,6 +1,7 @@
 const MERGE_SORT = "Merge Sort";
 const QUICK_SORT = "Quick Sort";
 const BUBBLE_SORT = "Bubble Sort";
+const promises = [];
 
 const sort = (sortingAlgorithm) => {
   if (!isValidSortingAlgorithm(sortingAlgorithm)) {
@@ -13,7 +14,7 @@ const sort = (sortingAlgorithm) => {
 
   switch (sortingAlgorithm) {
     case MERGE_SORT:
-      mergeSort();
+      return mergeSort();
       return;
     case QUICK_SORT:
       quickSort();
@@ -25,22 +26,32 @@ const sort = (sortingAlgorithm) => {
 };
 
 // sort elements based on height
-const mergeSort = () => {
+const mergeSort = async () => {
   const stripes = document.querySelectorAll(".stripe");
   const n = stripes.length;
+  const arrayOfIDs = getIdsArray(stripes);
+  document.querySelector(".stripe-wrapper").classList.add("red-border");
+  console.log(arrayOfIDs);
+  const sorted = mergeSortHelper(arrayOfIDs, 0, n - 1);
+  return Promise.all(promises).then(() => {
+    stripes.forEach((strip) => strip.classList.add("red-border"));
+    return "done";
+  });
+  // console.log("after wait");
+  // console.log(arrayOfIDs);
+};
+
+const getIdsArray = (elements) => {
   const arrayOfIDs = [];
-  stripes.forEach((el) => {
+  elements.forEach((el) => {
     let indexOfId = el.id.indexOf("-") + 1;
     let idString = el.id.substring(indexOfId);
     arrayOfIDs.push(parseInt(idString));
   });
-  console.log(arrayOfIDs);
-  const sorted = mergeSortHelper(arrayOfIDs, 0, n - 1, stripes);
-
-  console.log(arrayOfIDs);
+  return arrayOfIDs;
 };
 
-function merge(arr, start, mid, end, stripesArray) {
+function merge(arr, start, mid, end) {
   let start2 = mid + 1;
 
   // If the direct merge is already sorted
@@ -71,7 +82,7 @@ function merge(arr, start, mid, end, stripesArray) {
       // // get the actual nodes
       const nodeOne = document.querySelector(nodeOneIdx);
       const nodeTwo = document.querySelector(nodeTwoIdx);
-      swap(nodeOne.parentNode, nodeTwo, nodeOne);
+      promises.push(swap(nodeOne.parentNode, nodeTwo, nodeOne));
       arr[start] = value;
 
       // Update all the pointers
@@ -82,27 +93,30 @@ function merge(arr, start, mid, end, stripesArray) {
   }
 }
 
-function mergeSortHelper(arr, l, r, stripesArray) {
+function mergeSortHelper(arr, l, r) {
   if (l < r) {
     // Same as (l + r) / 2, but avoids overflow
     // for large l and r
     let m = l + Math.floor((r - l) / 2);
 
     // Sort first and second halves
-    mergeSortHelper(arr, l, m, stripesArray);
-    mergeSortHelper(arr, m + 1, r, stripesArray);
+    mergeSortHelper(arr, l, m);
+    mergeSortHelper(arr, m + 1, r);
     // console.log(l, m, r);
-    merge(arr, l, m, r, stripesArray);
+    merge(arr, l, m, r);
   }
 }
 
 let i = 1;
 const swap = (parent, nodeA, nodeB) => {
-  setTimeout(function () {
-    nodeA.classList.add("animate-swap");
-    nodeB.classList.add("animate-swap");
-    parent.insertBefore(nodeA, nodeB);
-  }, 25 * i++);
+  return new Promise((resolve) => {
+    setTimeout(function () {
+      nodeA.classList.add("animate-swap");
+      nodeB.classList.add("animate-swap");
+      parent.insertBefore(nodeA, nodeB);
+      resolve();
+    }, 25 * i++);
+  });
 };
 
 const quickSort = () => {

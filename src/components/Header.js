@@ -4,6 +4,7 @@ import sort from "../utilities/algorithms";
 const Header = ({ onRangeChange, onGenerateNewArray, onSort }) => {
   const INITIAL_RANGE_VALUE = 60;
   const [rangeValue, setRangeValue] = useState(INITIAL_RANGE_VALUE);
+  const [disabled, setDisabled] = useState(false);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(null);
   const onRangeChangeHandler = (e) => {
     setRangeValue(e.target.value);
@@ -19,7 +20,11 @@ const Header = ({ onRangeChange, onGenerateNewArray, onSort }) => {
     if (!selectedAlgorithm) {
       return;
     }
-    sort(selectedAlgorithm);
+    setDisabled(true);
+    sort(selectedAlgorithm).then(() => {
+      console.log("done");
+      setDisabled(false);
+    });
   };
 
   const onClickGenerateNewArray = () => {
@@ -29,7 +34,11 @@ const Header = ({ onRangeChange, onGenerateNewArray, onSort }) => {
 
   return (
     <header className="bg-cyan-900">
-      <nav className="relative mx-auto flex flex-row flex-wrap items-center justify-center p-4 container w-full l:text-l xl:text-xl text-sky-50 font-mono">
+      <nav
+        className={`relative mx-auto flex flex-row flex-wrap items-center justify-center p-4 container w-full l:text-l xl:text-xl text-sky-50 font-mono ${
+          disabled ? "disabled" : ""
+        }`}
+      >
         <div className="nav-child" onClick={onClickGenerateNewArray}>
           Generate a New Array!
         </div>

@@ -30,9 +30,7 @@ nav>.nav-child:hover {
   margin-left: 2px;
 }
 
-.red-border {
-  border-color: red !important;
-}
+
 
 nav>.nav-child.selected {
   color: cyan;
@@ -48,7 +46,7 @@ top: 50%;
 }
 
 @keyframes animateBorder {
-  0% {
+  0%, 99% {
       border-color: lightgreen;
     }
   
@@ -61,11 +59,41 @@ top: 50%;
     }
   
     100% {
-      border-color: yello;
+      border-color: yellow;
     }
 }
 
 .animate-swap {
   /* transition: all 500ms; */
   animation: animateBorder 100ms cubic-bezier(.36, .07, .19, .97);
+}
+
+.disabled {
+  color: maroon;
+  /* background-image: */
+      /* linear-gradient(to right, red, maroon); */
+    /* -webkit-background-clip: text; */
+    /* -webkit-text-fill-color: transparent; */
+    /* animation: text-color-animation 5s linear infinite; */
+    pointer-events: none;
+    /* opacity: 0.7; */
+}
+
+@keyframes text-color-animation {
+  /* to {
+      background-position: -4500vh;
+    } */
+
+    from {
+      border-color: lightgreen;
+    }
+
+    to {
+      border-color:violet;
+    }
+}
+
+.red-border {
+  /* border-color: red !important; */
+  animation: text-color-animation 1s step-end both;
 }
