@@ -13,6 +13,9 @@ function App() {
 
   const ongGenerateNewArrayHandler = () => {
     setFlip(!flip);
+    document.querySelectorAll(".stripe").forEach((el) => {
+      el.classList.remove("animate-swap", "text-animate-end");
+    });
   };
 
   return (

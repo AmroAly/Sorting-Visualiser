@@ -1,7 +1,7 @@
 import { useState } from "react";
 import sort from "../utilities/algorithms";
 
-const Header = ({ onRangeChange, onGenerateNewArray, onSort }) => {
+const Header = ({ onRangeChange, onGenerateNewArray }) => {
   const INITIAL_RANGE_VALUE = 60;
   const [rangeValue, setRangeValue] = useState(INITIAL_RANGE_VALUE);
   const [disabled, setDisabled] = useState(false);
@@ -22,13 +22,11 @@ const Header = ({ onRangeChange, onGenerateNewArray, onSort }) => {
     }
     setDisabled(true);
     sort(selectedAlgorithm).then(() => {
-      console.log("done");
       setDisabled(false);
     });
   };
 
   const onClickGenerateNewArray = () => {
-    setSelectedAlgorithm(null);
     onGenerateNewArray();
   };
 

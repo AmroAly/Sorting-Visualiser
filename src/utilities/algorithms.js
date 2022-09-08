@@ -1,9 +1,24 @@
 const MERGE_SORT = "Merge Sort";
 const QUICK_SORT = "Quick Sort";
 const BUBBLE_SORT = "Bubble Sort";
-const promises = [];
+let promises = [];
+let i = 1;
 
-const sort = (sortingAlgorithm) => {
+const removeBorderColorFromStripes = () => {
+  const stripes = document.querySelectorAll(".stripe");
+  stripes.forEach((stripe) =>
+    stripe.classList.remove("text-animate-end", "animate-swap")
+  );
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("ok");
+    }, 100);
+  });
+};
+
+const sort = async (sortingAlgorithm) => {
+  promises = [];
+  i = 1;
   if (!isValidSortingAlgorithm(sortingAlgorithm)) {
     return;
   }
@@ -12,10 +27,11 @@ const sort = (sortingAlgorithm) => {
     return;
   }
 
+  await removeBorderColorFromStripes();
+
   switch (sortingAlgorithm) {
     case MERGE_SORT:
       return mergeSort();
-      return;
     case QUICK_SORT:
       quickSort();
       return;
@@ -30,15 +46,13 @@ const mergeSort = async () => {
   const stripes = document.querySelectorAll(".stripe");
   const n = stripes.length;
   const arrayOfIDs = getIdsArray(stripes);
-  document.querySelector(".stripe-wrapper").classList.add("red-border");
-  console.log(arrayOfIDs);
-  const sorted = mergeSortHelper(arrayOfIDs, 0, n - 1);
+
+  mergeSortHelper(arrayOfIDs, 0, n - 1);
+
   return Promise.all(promises).then(() => {
-    stripes.forEach((strip) => strip.classList.add("red-border"));
+    stripes.forEach((strip) => strip.classList.add("text-animate-end"));
     return "done";
   });
-  // console.log("after wait");
-  // console.log(arrayOfIDs);
 };
 
 const getIdsArray = (elements) => {
@@ -50,12 +64,12 @@ const getIdsArray = (elements) => {
   });
   return arrayOfIDs;
 };
-
-function merge(arr, start, mid, end) {
+let y = 1;
+async function merge(arr, start, mid, end) {
   let start2 = mid + 1;
 
   // If the direct merge is already sorted
-  if (arr[mid].clientHeight <= arr[start2].clientHeight) {
+  if (arr[mid] <= arr[start2]) {
     return;
   }
 
@@ -68,6 +82,13 @@ function merge(arr, start, mid, end) {
     } else {
       let value = arr[start2];
       let index = start2;
+      const nodeOneIdx = `#stripe-${arr[start]}`;
+      const nodeTwoIdx = `#stripe-${value}`;
+
+      // // get the actual nodes
+      const nodeOne = document.querySelector(nodeOneIdx);
+      const nodeTwo = document.querySelector(nodeTwoIdx);
+      promises.push(swap(nodeOne.parentNode, nodeTwo, nodeOne));
 
       // Shift all the elements between element 1
       // element 2, right by 1.
@@ -75,14 +96,6 @@ function merge(arr, start, mid, end) {
         arr[index] = arr[index - 1];
         index--;
       }
-      const nodeOneIdx = `#stripe-${arr[start]}`;
-      const nodeTwoIdx = `#stripe-${value}`;
-      console.log(nodeOneIdx, nodeTwoIdx);
-
-      // // get the actual nodes
-      const nodeOne = document.querySelector(nodeOneIdx);
-      const nodeTwo = document.querySelector(nodeTwoIdx);
-      promises.push(swap(nodeOne.parentNode, nodeTwo, nodeOne));
       arr[start] = value;
 
       // Update all the pointers
@@ -107,7 +120,6 @@ function mergeSortHelper(arr, l, r) {
   }
 }
 
-let i = 1;
 const swap = (parent, nodeA, nodeB) => {
   return new Promise((resolve) => {
     setTimeout(function () {

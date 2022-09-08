@@ -26,12 +26,6 @@ nav>.nav-child:hover {
   max-width: 900px;
 }
 
-.stripe {
-  margin-left: 2px;
-}
-
-
-
 nav>.nav-child.selected {
   color: cyan;
 }
@@ -93,7 +87,7 @@ top: 50%;
     }
 }
 
-.red-border {
+.text-animate-end {
   /* border-color: red !important; */
   animation: text-color-animation 1s step-end both;
 }

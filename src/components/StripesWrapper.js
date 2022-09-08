@@ -1,10 +1,6 @@
-import { useEffect } from "react";
 import Stripe from "./Stripe";
 
 const StripesWrapper = ({ numberOfStripes }) => {
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
   const generateStripes = () => {
     const stripes = [];
     let stripeWidth = Math.floor(400 / numberOfStripes);

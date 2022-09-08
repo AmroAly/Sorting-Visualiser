@@ -1,13 +1,13 @@
-const Stripe = ({ height, broderWidth, i }) => (
-  <div
-    id={`stripe-${i}`}
-    className="stripe sm:m-0"
-    style={{
-      height,
-      borderLeft: `${broderWidth}px solid cadetblue`,
-      // order: `${i}`,
-    }}
-  ></div>
-);
-
+const Stripe = ({ height, broderWidth, i }) => {
+  return (
+    <div
+      id={`stripe-${i}`}
+      className="stripe"
+      style={{
+        height,
+        borderLeft: `${broderWidth}px solid cadetblue`,
+      }}
+    ></div>
+  );
+};
 export default Stripe;
