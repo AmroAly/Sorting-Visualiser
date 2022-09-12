@@ -16,6 +16,10 @@ nav>.nav-child:hover {
   color: cyan;
 }
 
+.stripe {
+  margin-left: 2px;
+}
+
 .vl {
   border-left: 2px solid white;
   height: 20px;
@@ -40,26 +44,29 @@ top: 50%;
 }
 
 @keyframes animateBorder {
-  0%, 99% {
+  0%,
+  33% {
       border-color: lightgreen;
     }
   
-    25% {
-      border-color:rgb(242, 53, 53);
+    34%,
+    70% {
+      border-color:cyan;
     }
   
-    50% {
-      border-color: cyan;
-    }
-  
+    70%,
     100% {
-      border-color: yellow;
+      border-color: dodgerblue;
     }
+  
+    /* 100% {
+      border-color: violet;
+    } */
 }
 
 .animate-swap {
   /* transition: all 500ms; */
-  animation: animateBorder 100ms cubic-bezier(.36, .07, .19, .97);
+  animation: animateBorder 200ms cubic-bezier(.36, .07, .19, .97);
 }
 
 .disabled {

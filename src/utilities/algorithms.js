@@ -72,7 +72,6 @@ async function merge(arr, start, mid, end) {
   if (arr[mid] <= arr[start2]) {
     return;
   }
-
   // Two pointers to maintain start
   // of both arrays to merge
   while (start <= mid && start2 <= end) {
@@ -82,14 +81,14 @@ async function merge(arr, start, mid, end) {
     } else {
       let value = arr[start2];
       let index = start2;
+
       const nodeOneIdx = `#stripe-${arr[start]}`;
       const nodeTwoIdx = `#stripe-${value}`;
 
       // // get the actual nodes
       const nodeOne = document.querySelector(nodeOneIdx);
       const nodeTwo = document.querySelector(nodeTwoIdx);
-      promises.push(swap(nodeOne.parentNode, nodeTwo, nodeOne));
-
+      promises.push(swap(nodeTwo, nodeOne, arr.length));
       // Shift all the elements between element 1
       // element 2, right by 1.
       while (index != start) {
@@ -97,7 +96,6 @@ async function merge(arr, start, mid, end) {
         index--;
       }
       arr[start] = value;
-
       // Update all the pointers
       start++;
       mid++;
@@ -115,20 +113,31 @@ function mergeSortHelper(arr, l, r) {
     // Sort first and second halves
     mergeSortHelper(arr, l, m);
     mergeSortHelper(arr, m + 1, r);
-    // console.log(l, m, r);
     merge(arr, l, m, r);
   }
 }
 
-const swap = (parent, nodeA, nodeB) => {
+const swap = async (nodeA, nodeB, len) => {
+  const speed = len < 50 ? 500 : Math.floor(len / 1.5);
   return new Promise((resolve) => {
     setTimeout(function () {
-      nodeA.classList.add("animate-swap");
-      nodeB.classList.add("animate-swap");
-      parent.insertBefore(nodeA, nodeB);
+      animate(nodeA);
+      nodeA.parentNode.insertBefore(nodeA, nodeB);
+      animate(nodeB);
       resolve();
-    }, 25 * i++);
+    }, speed * i++);
   });
+};
+
+// const sleep = () => {
+//   return new Promise((resolve) =>
+//     setTimeout(() => {
+//       resolve();
+//     }, 500)
+//   );
+// };
+const animate = async (node) => {
+  node.classList.add("animate-swap");
 };
 
 const quickSort = () => {
