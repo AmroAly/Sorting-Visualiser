@@ -6,6 +6,7 @@ const Header = ({ onRangeChange, onGenerateNewArray }) => {
   const [rangeValue, setRangeValue] = useState(INITIAL_RANGE_VALUE);
   const [disabled, setDisabled] = useState(false);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(null);
+
   const onRangeChangeHandler = (e) => {
     setRangeValue(e.target.value);
     onRangeChange(e.target.value);
@@ -20,7 +21,9 @@ const Header = ({ onRangeChange, onGenerateNewArray }) => {
     if (!selectedAlgorithm) {
       return;
     }
+
     setDisabled(true);
+
     sort(selectedAlgorithm).then(() => {
       setDisabled(false);
     });

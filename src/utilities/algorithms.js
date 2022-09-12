@@ -33,19 +33,24 @@ const sort = async (sortingAlgorithm) => {
     case MERGE_SORT:
       return mergeSort();
     case QUICK_SORT:
-      quickSort();
-      return;
+      return quickSort();
     case BUBBLE_SORT:
       bubbleSort();
       return;
   }
 };
 
+const getStripeInfo = () => {
+  const stripes = document.querySelectorAll(".stripe");
+  const arrayOfIDs = getIdsArray(stripes);
+  const n = stripes.length;
+
+  return [stripes, arrayOfIDs, n];
+};
+
 // sort elements based on height
 const mergeSort = async () => {
-  const stripes = document.querySelectorAll(".stripe");
-  const n = stripes.length;
-  const arrayOfIDs = getIdsArray(stripes);
+  const [stripes, arrayOfIDs, n] = getStripeInfo();
 
   mergeSortHelper(arrayOfIDs, 0, n - 1);
 
@@ -64,7 +69,7 @@ const getIdsArray = (elements) => {
   });
   return arrayOfIDs;
 };
-let y = 1;
+
 async function merge(arr, start, mid, end) {
   let start2 = mid + 1;
 
@@ -88,7 +93,7 @@ async function merge(arr, start, mid, end) {
       // // get the actual nodes
       const nodeOne = document.querySelector(nodeOneIdx);
       const nodeTwo = document.querySelector(nodeTwoIdx);
-      promises.push(swap(nodeTwo, nodeOne, arr.length));
+      swapHtmlElementsMergeSort(nodeTwo, nodeOne, arr.length);
       // Shift all the elements between element 1
       // element 2, right by 1.
       while (index != start) {
@@ -117,9 +122,9 @@ function mergeSortHelper(arr, l, r) {
   }
 }
 
-const swap = async (nodeA, nodeB, len) => {
+const swapHtmlElementsMergeSort = async (nodeA, nodeB, len) => {
   const speed = len < 50 ? 500 : Math.floor(len / 1.5);
-  return new Promise((resolve) => {
+  const promise = new Promise((resolve) => {
     setTimeout(function () {
       animate(nodeA);
       nodeA.parentNode.insertBefore(nodeA, nodeB);
@@ -127,6 +132,24 @@ const swap = async (nodeA, nodeB, len) => {
       resolve();
     }, speed * i++);
   });
+  promises.push(promise);
+  return promise;
+};
+
+const swapHtmlElementsQuickSort = async (nodeA, nodeB, len) => {
+  const speed = len < 50 ? 500 : Math.floor(len / 1.5);
+  const promise = new Promise((resolve) => {
+    setTimeout(function () {
+      const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
+      animate(nodeA);
+      animate(nodeB);
+      nodeA.parentNode.insertBefore(nodeA, nodeB);
+      nodeA.parentNode.insertBefore(nodeB, siblingA);
+      resolve();
+    }, speed * i++);
+  });
+  promises.push(promise);
+  return promise;
 };
 
 // const sleep = () => {
@@ -141,7 +164,51 @@ const animate = async (node) => {
 };
 
 const quickSort = () => {
-  console.log("Quick Sort");
+  const [stripes, arrayOfIDs, n] = getStripeInfo();
+  quickSortHelper(arrayOfIDs, 0, n - 1);
+
+  return Promise.all(promises).then(() => {
+    stripes.forEach((strip) => strip.classList.add("text-animate-end"));
+    return "done";
+  });
+};
+
+const quickSortHelper = (arr, startIdx, endIdx) => {
+  if (startIdx >= endIdx) return;
+  const pivotIdx = startIdx;
+  let leftIdx = startIdx + 1;
+  let rightIdx = endIdx;
+  while (leftIdx <= rightIdx) {
+    if (arr[leftIdx] > arr[pivotIdx] && arr[rightIdx] < arr[pivotIdx]) {
+      const nodeA = document.querySelector(`#stripe-${arr[leftIdx]}`);
+      const nodeB = document.querySelector(`#stripe-${arr[rightIdx]}`);
+      swapHtmlElementsQuickSort(nodeB, nodeA, arr.length);
+      swap(arr, leftIdx, rightIdx);
+    }
+
+    if (arr[leftIdx] <= arr[pivotIdx]) {
+      leftIdx++;
+    }
+
+    if (arr[rightIdx] >= arr[pivotIdx]) {
+      rightIdx--;
+    }
+  }
+  const nodeA = document.querySelector(`#stripe-${arr[rightIdx]}`);
+  const nodeB = document.querySelector(`#stripe-${arr[pivotIdx]}`);
+  swapHtmlElementsQuickSort(nodeB, nodeA, arr.length);
+  swap(arr, rightIdx, pivotIdx);
+
+  quickSortHelper(arr, startIdx, rightIdx - 1);
+  quickSortHelper(arr, rightIdx + 1, endIdx);
+};
+
+const swap = (arr, i, j) => {
+  if (i < 0 || i >= arr.length) return;
+  if (j < 0 || j >= arr.length) return;
+  let tmp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = tmp;
 };
 
 const bubbleSort = () => {
