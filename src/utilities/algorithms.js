@@ -54,10 +54,7 @@ const mergeSort = async () => {
 
   mergeSortHelper(arrayOfIDs, 0, n - 1);
 
-  return Promise.all(promises).then(() => {
-    stripes.forEach((strip) => strip.classList.add("text-animate-end"));
-    return "done";
-  });
+  return addAnimationAfterPromisesEnd(stripes);
 };
 
 const getIdsArray = (elements) => {
@@ -87,8 +84,8 @@ async function merge(arr, start, mid, end) {
       let value = arr[start2];
       let index = start2;
 
-      const nodeOneIdx = `#stripe-${arr[start]}`;
-      const nodeTwoIdx = `#stripe-${value}`;
+      const nodeOneIdx = getHtmlElementId(arr[start]);
+      const nodeTwoIdx = getHtmlElementId(value);
 
       // // get the actual nodes
       const nodeOne = document.querySelector(nodeOneIdx);
@@ -167,10 +164,7 @@ const quickSort = () => {
   const [stripes, arrayOfIDs, n] = getStripeInfo();
   quickSortHelper(arrayOfIDs, 0, n - 1);
 
-  return Promise.all(promises).then(() => {
-    stripes.forEach((strip) => strip.classList.add("text-animate-end"));
-    return "done";
-  });
+  return addAnimationAfterPromisesEnd(stripes);
 };
 
 const quickSortHelper = (arr, startIdx, endIdx) => {
@@ -180,8 +174,8 @@ const quickSortHelper = (arr, startIdx, endIdx) => {
   let rightIdx = endIdx;
   while (leftIdx <= rightIdx) {
     if (arr[leftIdx] > arr[pivotIdx] && arr[rightIdx] < arr[pivotIdx]) {
-      const nodeA = document.querySelector(`#stripe-${arr[leftIdx]}`);
-      const nodeB = document.querySelector(`#stripe-${arr[rightIdx]}`);
+      const nodeA = document.querySelector(getHtmlElementId(arr[leftIdx]));
+      const nodeB = document.querySelector(getHtmlElementId(arr[rightIdx]));
       swapHtmlElementsQuickSort(nodeB, nodeA, arr.length);
       swap(arr, leftIdx, rightIdx);
     }
@@ -194,8 +188,8 @@ const quickSortHelper = (arr, startIdx, endIdx) => {
       rightIdx--;
     }
   }
-  const nodeA = document.querySelector(`#stripe-${arr[rightIdx]}`);
-  const nodeB = document.querySelector(`#stripe-${arr[pivotIdx]}`);
+  const nodeA = document.querySelector(getHtmlElementId(arr[rightIdx]));
+  const nodeB = document.querySelector(getHtmlElementId(arr[pivotIdx]));
   swapHtmlElementsQuickSort(nodeB, nodeA, arr.length);
   swap(arr, rightIdx, pivotIdx);
 
@@ -212,7 +206,36 @@ const swap = (arr, i, j) => {
 };
 
 const bubbleSort = () => {
-  console.log("Bubble Sort");
+  const [stripes, arrayOfIDs, n] = getStripeInfo();
+
+  let hasUnsortedElements = true;
+  while (hasUnsortedElements) {
+    hasUnsortedElements = false;
+    for (let i = 1; i < n; i++) {
+      if (arrayOfIDs[i - 1] > arrayOfIDs[i]) {
+        const nodeA = document.querySelector(
+          getHtmlElementId(arrayOfIDs[i - 1])
+        );
+        const nodeB = document.querySelector(getHtmlElementId(arrayOfIDs[i]));
+        swapHtmlElementsQuickSort(nodeB, nodeA, n);
+        swap(arrayOfIDs, i - 1, i);
+        hasUnsortedElements = true;
+      }
+    }
+  }
+
+  return addAnimationAfterPromisesEnd(stripes);
+};
+
+const getHtmlElementId = (number) => {
+  return `#stripe-${number}`;
+};
+
+const addAnimationAfterPromisesEnd = (stripes) => {
+  return Promise.all(promises).then(() => {
+    stripes.forEach((strip) => strip.classList.add("text-animate-end"));
+    return "done";
+  });
 };
 
 const isValidSortingAlgorithm = (algorithm) => {

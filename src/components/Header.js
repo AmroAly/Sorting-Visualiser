@@ -36,7 +36,7 @@ const Header = ({ onRangeChange, onGenerateNewArray }) => {
   return (
     <header className="bg-cyan-900">
       <nav
-        className={`relative mx-auto flex flex-row flex-wrap items-center justify-center p-4 container w-full l:text-l xl:text-xl text-sky-50 font-mono ${
+        className={`relative mx-auto flex flex-row flex-wrap items-center justify-center p-4 container w-full text-l text-sky-50 font-mono ${
           disabled ? "disabled" : ""
         }`}
       >
