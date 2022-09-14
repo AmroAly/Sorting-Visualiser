@@ -1,6 +1,7 @@
 const MERGE_SORT = "Merge Sort";
 const QUICK_SORT = "Quick Sort";
 const BUBBLE_SORT = "Bubble Sort";
+const HEAP_SORT = "Heap Sort";
 let promises = [];
 let i = 1;
 
@@ -35,7 +36,9 @@ const sort = async (sortingAlgorithm) => {
     case QUICK_SORT:
       return quickSort();
     case BUBBLE_SORT:
-      bubbleSort();
+      return bubbleSort();
+    case HEAP_SORT:
+      heapSort();
       return;
   }
 };
@@ -149,13 +152,6 @@ const swapHtmlElementsQuickSort = async (nodeA, nodeB, len) => {
   return promise;
 };
 
-// const sleep = () => {
-//   return new Promise((resolve) =>
-//     setTimeout(() => {
-//       resolve();
-//     }, 500)
-//   );
-// };
 const animate = async (node) => {
   node.classList.add("animate-swap");
 };
@@ -227,6 +223,10 @@ const bubbleSort = () => {
   return addAnimationAfterPromisesEnd(stripes);
 };
 
+const heapSort = () => {
+  console.log("Heap Sort");
+};
+
 const getHtmlElementId = (number) => {
   return `#stripe-${number}`;
 };
@@ -239,7 +239,7 @@ const addAnimationAfterPromisesEnd = (stripes) => {
 };
 
 const isValidSortingAlgorithm = (algorithm) => {
-  const SORTING_ALGORITHMS = [MERGE_SORT, QUICK_SORT, BUBBLE_SORT];
+  const SORTING_ALGORITHMS = [MERGE_SORT, QUICK_SORT, BUBBLE_SORT, HEAP_SORT];
   return SORTING_ALGORITHMS.includes(algorithm);
 };
 

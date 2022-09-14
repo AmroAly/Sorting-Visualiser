@@ -77,6 +77,14 @@ const Header = ({ onRangeChange, onGenerateNewArray }) => {
         </div>
         <div
           className={`nav-child ${
+            selectedAlgorithm == "Heap Sort" ? " selected" : ""
+          }`}
+          onClick={handleSelectAlgorithm}
+        >
+          Heap Sort
+        </div>
+        <div
+          className={`nav-child ${
             selectedAlgorithm == "Bubble Sort" ? " selected" : ""
           }`}
           onClick={handleSelectAlgorithm}
