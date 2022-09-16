@@ -225,6 +225,14 @@ const bubbleSort = () => {
 
 const heapSort = () => {
   console.log("Heap Sort");
+  const [stripes, arrayOfIDs, n] = getStripeInfo();
+  console.log(arrayOfIDs);
+  buildMaxHeap(arrayOfIDs);
+  for (let endIdx = arrayOfIDs.length - 1; endIdx > 0; endIdx--) {
+    swap(arrayOfIDs, 0, endIdx);
+    siftDown(arrayOfIDs, 0, endIdx - 1);
+  }
+  console.log(arrayOfIDs);
 };
 
 const getHtmlElementId = (number) => {
@@ -246,6 +254,34 @@ const isValidSortingAlgorithm = (algorithm) => {
 const stripesAreFound = () => {
   const stripes = document.querySelectorAll(".stripe");
   return stripes.length > 0;
+};
+
+const buildMaxHeap = (arr) => {
+  const firstParentIdx = Math.floor((arr.length - 1) / 2);
+  for (let currentIdx = firstParentIdx; currentIdx >= 0; currentIdx--) {
+    siftDown(arr, currentIdx, arr.length - 1);
+  }
+};
+
+const siftDown = (heap, startIdx, endIdx) => {
+  let childOneIdx = startIdx * 2 + 1;
+  while (childOneIdx <= endIdx) {
+    let childTwoIdx = startIdx * 2 + 2 <= endIdx ? startIdx * 2 + 2 : -1;
+    let idxToSwap = -1;
+    if (childTwoIdx > -1 && heap[childTwoIdx] > heap[childOneIdx]) {
+      idxToSwap = childTwoIdx;
+    } else {
+      idxToSwap = childOneIdx;
+    }
+
+    if (heap[idxToSwap] > heap[startIdx]) {
+      swap(heap, idxToSwap, startIdx);
+      startIdx = idxToSwap;
+      childOneIdx = startIdx * 2 + 1;
+    } else {
+      return;
+    }
+  }
 };
 
 export default sort;
