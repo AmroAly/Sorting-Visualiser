@@ -38,8 +38,7 @@ const sort = async (sortingAlgorithm) => {
     case BUBBLE_SORT:
       return bubbleSort();
     case HEAP_SORT:
-      heapSort();
-      return;
+      return heapSort();
   }
 };
 
@@ -93,7 +92,7 @@ async function merge(arr, start, mid, end) {
       // // get the actual nodes
       const nodeOne = document.querySelector(nodeOneIdx);
       const nodeTwo = document.querySelector(nodeTwoIdx);
-      swapHtmlElementsMergeSort(nodeTwo, nodeOne, arr.length);
+      insertBefore(nodeTwo, nodeOne, arr.length);
       // Shift all the elements between element 1
       // element 2, right by 1.
       while (index != start) {
@@ -122,7 +121,7 @@ function mergeSortHelper(arr, l, r) {
   }
 }
 
-const swapHtmlElementsMergeSort = async (nodeA, nodeB, len) => {
+const insertBefore = async (nodeA, nodeB, len) => {
   const speed = len < 50 ? 500 : Math.floor(len / 1.5);
   const promise = new Promise((resolve) => {
     setTimeout(function () {
@@ -136,8 +135,10 @@ const swapHtmlElementsMergeSort = async (nodeA, nodeB, len) => {
   return promise;
 };
 
-const swapHtmlElementsQuickSort = async (nodeA, nodeB, len) => {
+const swapHtmlElements = async (idOne, idTwo, len) => {
   const speed = len < 50 ? 500 : Math.floor(len / 1.5);
+  const nodeA = document.querySelector(getHtmlElementId(idOne));
+  const nodeB = document.querySelector(getHtmlElementId(idTwo));
   const promise = new Promise((resolve) => {
     setTimeout(function () {
       const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
@@ -170,9 +171,7 @@ const quickSortHelper = (arr, startIdx, endIdx) => {
   let rightIdx = endIdx;
   while (leftIdx <= rightIdx) {
     if (arr[leftIdx] > arr[pivotIdx] && arr[rightIdx] < arr[pivotIdx]) {
-      const nodeA = document.querySelector(getHtmlElementId(arr[leftIdx]));
-      const nodeB = document.querySelector(getHtmlElementId(arr[rightIdx]));
-      swapHtmlElementsQuickSort(nodeB, nodeA, arr.length);
+      swapHtmlElements(arr[rightIdx], arr[leftIdx], arr.length);
       swap(arr, leftIdx, rightIdx);
     }
 
@@ -184,9 +183,7 @@ const quickSortHelper = (arr, startIdx, endIdx) => {
       rightIdx--;
     }
   }
-  const nodeA = document.querySelector(getHtmlElementId(arr[rightIdx]));
-  const nodeB = document.querySelector(getHtmlElementId(arr[pivotIdx]));
-  swapHtmlElementsQuickSort(nodeB, nodeA, arr.length);
+  swapHtmlElements(arr[rightIdx], arr[pivotIdx], arr.length);
   swap(arr, rightIdx, pivotIdx);
 
   quickSortHelper(arr, startIdx, rightIdx - 1);
@@ -209,11 +206,7 @@ const bubbleSort = () => {
     hasUnsortedElements = false;
     for (let i = 1; i < n; i++) {
       if (arrayOfIDs[i - 1] > arrayOfIDs[i]) {
-        const nodeA = document.querySelector(
-          getHtmlElementId(arrayOfIDs[i - 1])
-        );
-        const nodeB = document.querySelector(getHtmlElementId(arrayOfIDs[i]));
-        swapHtmlElementsQuickSort(nodeB, nodeA, n);
+        swapHtmlElements(arrayOfIDs[i - 1], arrayOfIDs[i], n);
         swap(arrayOfIDs, i - 1, i);
         hasUnsortedElements = true;
       }
@@ -224,15 +217,14 @@ const bubbleSort = () => {
 };
 
 const heapSort = () => {
-  console.log("Heap Sort");
-  const [stripes, arrayOfIDs, n] = getStripeInfo();
-  console.log(arrayOfIDs);
-  buildMaxHeap(arrayOfIDs);
-  for (let endIdx = arrayOfIDs.length - 1; endIdx > 0; endIdx--) {
-    swap(arrayOfIDs, 0, endIdx);
-    siftDown(arrayOfIDs, 0, endIdx - 1);
+  const [stripes, array, n] = getStripeInfo();
+  buildMaxHeap(array);
+  for (let endIdx = array.length - 1; endIdx > 0; endIdx--) {
+    swapHtmlElements(array[0], array[endIdx], array.length);
+    swap(array, 0, endIdx);
+    siftDown(array, 0, endIdx - 1);
   }
-  console.log(arrayOfIDs);
+  return addAnimationAfterPromisesEnd(stripes);
 };
 
 const getHtmlElementId = (number) => {
@@ -275,6 +267,7 @@ const siftDown = (heap, startIdx, endIdx) => {
     }
 
     if (heap[idxToSwap] > heap[startIdx]) {
+      swapHtmlElements(heap[idxToSwap], heap[startIdx], heap.length);
       swap(heap, idxToSwap, startIdx);
       startIdx = idxToSwap;
       childOneIdx = startIdx * 2 + 1;

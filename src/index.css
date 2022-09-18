@@ -58,14 +58,9 @@ top: 50%;
     100% {
       border-color: dodgerblue;
     }
-  
-    /* 100% {
-      border-color: violet;
-    } */
 }
 
 .animate-swap {
-  /* transition: all 500ms; */
   animation: animateBorder 200ms cubic-bezier(.36, .07, .19, .97);
 }
 
